@@ -19,6 +19,19 @@ import { LoggerModule } from './common/logger';
 import { SentryModule } from './common/sentry';
 import { CacheModule } from './cache/cache.module';
 import { AuthModule } from './auth/auth.module';
+ feature/sep24-fiat-on-off-ramp
+=======
+import { AnalyticsModule } from './analytics/analytics.module';
+import { WebsocketModule } from './websocket/websocket.module';
+import { ApiMonetizationModule } from './api-monetization/api-monetization.module';
+import { SlaModule } from './enterprise/sla/sla.module';
+ api
+import { AnalyticsModule } from './analytics/analytics.module';
+import { WebsocketModule } from './websocket/websocket.module';
+import { ApiMonetizationModule } from './api-monetization/api-monetization.module';
+Management
+import { SlaModule } from './enterprise/sla/sla.module';
+ main
 import { UsersModule } from './users/users.module';
 import { SignalsModule } from './signals/signals.module';
 import { TradesModule } from './trades/trades.module';
@@ -38,7 +51,11 @@ import { KycModule } from './kyc/kyc.module';
 import { ProductAnalyticsModule } from './analytics/product-analytics.module';
 import { BackupModule } from './backup/backup.module';
 import { AdminAnalyticsModule } from './admin/analytics/admin-analytics.module';
+ feature/sep24-fiat-on-off-ramp
 import { Sep24Module } from './anchors/sep24/sep24.module';
+
+import { SearchModule } from './search/search.module';
+ main
 
 @Module({
   imports: [
@@ -119,6 +136,17 @@ import { Sep24Module } from './anchors/sep24/sep24.module';
     TradesModule,
     CacheModule,
     AuthModule,
+ feature/sep24-fiat-on-off-ramp
+
+    WebsocketModule,
+    ApiMonetizationModule,
+    SlaModule,
+ api
+    WebsocketModule,
+    ApiMonetizationModule,
+ Management
+    SlaModule,
+ main
     ProvidersModule,
     MlModule,
     ScalingModule,
@@ -133,7 +161,11 @@ import { Sep24Module } from './anchors/sep24/sep24.module';
     ProductAnalyticsModule,
     BackupModule,
     AdminAnalyticsModule,
+ feature/sep24-fiat-on-off-ramp
     Sep24Module,
+
+    SearchModule,
+ main
   ],
   providers: [StellarConfigService],
   exports: [StellarConfigService],

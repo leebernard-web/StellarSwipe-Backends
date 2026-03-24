@@ -18,7 +18,6 @@ import { RegulatoryReportingModule } from './regulatory-reporting/regulatory-rep
   providers: [GeoBlockService, SanctionsScreeningService, ComplianceReportingService],
   controllers: [ComplianceController],
   exports: [GeoBlockService, SanctionsScreeningService, ComplianceReportingService, RegulatoryReportingModule],
-=======
 import { SuspiciousActivity } from './aml/entities/suspicious-activity.entity';
 import { AmlMonitoringService } from './aml/aml-monitoring.service';
 import { PatternDetectionService } from './aml/pattern-detection.service';

@@ -7,12 +7,13 @@ import { GeoBlockMiddleware } from './geo-blocking/middleware/geo-block.middlewa
 import { ComplianceReportingService } from './compliance-reporting.service';
 import { ComplianceController } from './compliance.controller';
 import { ComplianceLog } from './entities/compliance-log.entity';
+import { RegulatoryReportingModule } from './regulatory-reporting/regulatory-reporting.module';
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([ComplianceLog])],
+  imports: [ConfigModule, TypeOrmModule.forFeature([ComplianceLog]), RegulatoryReportingModule],
   providers: [GeoBlockService, SanctionsScreeningService, ComplianceReportingService],
   controllers: [ComplianceController],
-  exports: [GeoBlockService, SanctionsScreeningService, ComplianceReportingService],
+  exports: [GeoBlockService, SanctionsScreeningService, ComplianceReportingService, RegulatoryReportingModule],
 })
 export class ComplianceModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

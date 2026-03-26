@@ -44,6 +44,8 @@ import { ProductAnalyticsModule } from './analytics/product-analytics.module';
 import { BackupModule } from './backup/backup.module';
 import { AdminAnalyticsModule } from './admin/analytics/admin-analytics.module';
 import { MonitoringModule } from './monitoring/monitoring.module';
+import { WebhooksModule } from './webhooks/webhooks.module';
+import { DrModule } from './disaster-recovery/dr.module';
 
 @Module({
   imports: [
@@ -135,6 +137,8 @@ import { MonitoringModule } from './monitoring/monitoring.module';
     BackupModule,
     AdminAnalyticsModule,
     MonitoringModule,
+    WebhooksModule,
+    DrModule,
   ],
   providers: [StellarConfigService],
   exports: [StellarConfigService],

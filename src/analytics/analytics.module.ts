@@ -19,6 +19,11 @@ import { AbTestAnalyzerService } from './ab-testing/ab-test-analyzer.service';
 import { AbTestController } from './ab-testing/ab-test.controller';
 import { ExperimentResult } from './ab-testing/entities/experiment-result.entity';
 import { VariantPerformance } from './ab-testing/entities/variant-performance.entity';
+import { LtvCalculatorService } from './ltv/ltv-calculator.service';
+import { LtvController } from './ltv/ltv.controller';
+import { UserLtv } from './ltv/entities/user-ltv.entity';
+import { LtvSegment } from './ltv/entities/ltv-segment.entity';
+import { CalculateLtvJob } from './ltv/jobs/calculate-ltv.job';
 
 @Module({
   imports: [
@@ -31,11 +36,13 @@ import { VariantPerformance } from './ab-testing/entities/variant-performance.en
       AssetPair,
       ExperimentResult,
       VariantPerformance,
+      UserLtv,
+      LtvSegment,
     ]),
     ScheduleModule.forRoot(),
     TradePatternsModule,
   ],
-  controllers: [AnalyticsController, AbTestController],
+  controllers: [AnalyticsController, AbTestController, LtvController],
   providers: [
     AnalyticsService,
     RiskMetricsService,
@@ -44,6 +51,8 @@ import { VariantPerformance } from './ab-testing/entities/variant-performance.en
     CorrelationService,
     PriceService,
     AbTestAnalyzerService,
+    LtvCalculatorService,
+    CalculateLtvJob,
   ],
   exports: [
     AnalyticsService,
@@ -52,6 +61,7 @@ import { VariantPerformance } from './ab-testing/entities/variant-performance.en
     CorrelationService,
     StatisticalAnalysisService,
     AbTestAnalyzerService,
+    LtvCalculatorService,
   ],
 })
 export class AnalyticsModule {}

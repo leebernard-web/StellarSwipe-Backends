@@ -18,6 +18,7 @@ import { SignalPerformanceService } from './services/signal-performance.service'
 import { SdexPriceService } from './services/sdex-price.service';
 import { SignalPerformance } from './entities/signal-performance.entity';
 import { AnalyzeSignalDecayJob } from './decay-analysis/jobs/analyze-signal-decay.job';
+import { CacheModule } from '../cache/cache.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AnalyzeSignalDecayJob } from './decay-analysis/jobs/analyze-signal-deca
       SignalDecay,
       SignalPerformance,
     ]),
+    CacheModule,
     BullModule.registerQueueAsync({
       name: 'signal-tracking',
       imports: [ConfigModule],

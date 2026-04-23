@@ -16,6 +16,7 @@ import { RedisIoAdapter } from './websocket/adapters/redis-io.adapter';
 import { InstanceCoordinatorService } from './scaling/instance-coordinator.service';
 import { compressionConfig } from './common/config/compression.config';
 import { MetricsInterceptor } from './monitoring/metrics/metrics.interceptor';
+import { DeadlockRetryInterceptor } from './database/deadlock-retry.interceptor';
 import { initTracing } from './monitoring/tracing/jaeger.config';
 
 initTracing();
@@ -87,6 +88,7 @@ async function bootstrap() {
   );
 
   // Global interceptors
+  app.useGlobalInterceptors(new DeadlockRetryInterceptor());
   app.useGlobalInterceptors(new LoggingInterceptor(logger));
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalInterceptors(app.get(MetricsInterceptor));

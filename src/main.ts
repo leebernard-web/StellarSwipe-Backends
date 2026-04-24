@@ -1,6 +1,7 @@
-import { NestFactory } from "@nestjs/core";
+import { NestFactory, Reflector } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { ConfigService } from "@nestjs/config";
+import { VersioningType } from '@nestjs/common';
 import { I18nValidationExceptionFilter, I18nValidationPipe } from 'nestjs-i18n';
 import * as compression from 'compression';
 import { AppModule } from "./app.module";
@@ -20,6 +21,7 @@ import { DeadlockRetryInterceptor } from './database/deadlock-retry.interceptor'
 import { initTracing } from './monitoring/tracing/jaeger.config';
 import { DocGeneratorService } from './documentation/doc-generator.service';
 import { generateOpenApiDocument } from './documentation/generators/openapi-generator';
+import { DeprecationInterceptor } from './versioning/interceptors/deprecation.interceptor';
 
 initTracing();
 
@@ -51,6 +53,13 @@ async function bootstrap() {
 
   // Set global prefix
   app.setGlobalPrefix(globalPrefix);
+
+  // Enable URI-based API versioning (e.g. /api/v1/..., /api/v2/...)
+  app.enableVersioning({ type: VersioningType.URI });
+
+  // Register deprecation interceptor globally so @Deprecated() headers are
+  // emitted on any handler decorated with it, without touching auth logic.
+  app.useGlobalInterceptors(new DeprecationInterceptor(app.get(Reflector)));
 
   // Enable CORS
   app.enableCors({

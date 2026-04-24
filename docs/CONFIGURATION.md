@@ -362,3 +362,47 @@ This allows you to:
 - [Joi Validation](https://joi.dev/api/)
 - [Stellar Networks](https://developers.stellar.org/docs/networks)
 - [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/)
+
+## Audit Logging
+
+StellarSwipe records immutable audit logs for all admin-level and sensitive account operations.
+
+### What is logged
+
+| Operation | Action enum | Controller |
+|---|---|---|
+| Wallet signature login | `LOGIN` | `AuthController.verify` |
+| User suspended | `USER_SUSPENDED` | `AdminController.suspendUser` |
+| User reinstated | `USER_REINSTATED` | `AdminController.unsuspendUser` |
+| Signal removed by admin | `SIGNAL_DELETED` | `AdminController.removeSignal` |
+| KYC flow started | `KYC_SUBMITTED` | `KycController.startKyc` |
+| KYC manual review | `KYC_MANUAL_REVIEW` | `KycController.manualReview` |
+| API key created | `API_KEY_CREATED` | `ApiKeysController.create` |
+| API key rotated | `API_KEY_ROTATED` | `ApiKeysController.rotate` |
+| API key revoked | `API_KEY_REVOKED` | `ApiKeysController.revoke` |
+
+### How it works
+
+The `@Audit()` method decorator (from `src/audit-log/interceptors/audit-logging.interceptor.ts`) is applied to controller handlers. The `AuditLoggingInterceptor` fires after the handler resolves (or rejects) and writes an entry via `AuditService.log()`. Failures in audit logging never propagate to the caller.
+
+Each log entry captures: `userId`, `action`, `resource`, `resourceId`, `ipAddress`, `userAgent`, `status` (`SUCCESS`/`FAILURE`), and optional `metadata`. Sensitive fields (passwords, keys, tokens) are automatically redacted before persistence.
+
+### Querying logs
+
+```
+GET /api/v1/audit                          # paginated list with filters
+GET /api/v1/audit/:id                      # single entry
+GET /api/v1/audit/users/:userId            # trail for a user
+GET /api/v1/audit/resources/:resource/:id  # trail for a resource
+GET /api/v1/audit/compliance/export/:userId?startDate=&endDate=
+```
+
+### Retention
+
+Audit logs are retained for **2 years** (730 days). A scheduled job runs nightly at 02:00 to purge older entries using a raw query that bypasses the immutability hook.
+
+### Adding new audited operations
+
+1. Add the action to the `AuditAction` enum in `src/audit-log/entities/audit-log.entity.ts`.
+2. Apply `@Audit({ action: AuditAction.YOUR_ACTION, resource: 'resource-name' })` to the controller method.
+3. Ensure the controller's module imports `AuditModule` (or the module already exports `AuditLoggingInterceptor`).

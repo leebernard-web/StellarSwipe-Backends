@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "user_portfolio",
+    "whsper_stellar",
+]
+resolver = "2"

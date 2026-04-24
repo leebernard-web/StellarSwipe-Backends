@@ -18,9 +18,8 @@ import { StellarConfigService } from './config/stellar.service';
 import { LoggerModule } from './common/logger';
 import { SentryModule } from './common/sentry';
 import { CacheModule } from './cache/cache.module';
-import { AuthModule } from './auth/auth.module';
- feature/sep24-fiat-on-off-ramp
 
+import { AuthModule } from './auth/auth.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { WebsocketModule } from './websocket/websocket.module';
 import { ApiMonetizationModule } from './api-monetization/api-monetization.module';
@@ -31,7 +30,7 @@ import { TradesModule } from './trades/trades.module';
 import { ProvidersModule } from './providers/providers.module';
 import { MlModule } from './ml/ml.module';
 import { ScalingModule } from './scaling/scaling.module';
-import { VersioningModule } from './common/modules/versioning.module';
+import { VersioningModule } from './versioning/versioning.module';
 import { ReferralsModule } from './referrals/referrals.module';
 import { EventsModule } from './events/events.module';
 import { ApiKeysModule } from './api-keys/api-keys.module';
@@ -44,7 +43,27 @@ import { ProductAnalyticsModule } from './analytics/product-analytics.module';
 import { BackupModule } from './backup/backup.module';
 import { AdminAnalyticsModule } from './admin/analytics/admin-analytics.module';
 import { MonitoringModule } from './monitoring/monitoring.module';
-import { FeaturesModule } from './features/features.module';
+import { WebhooksModule } from './webhooks/webhooks.module';
+import { DrModule } from './disaster-recovery/dr.module';
+import { MarketIntelligenceModule } from './market-intelligence/market-intelligence.module';
+import { DocumentationModule } from './documentation/documentation.module';
+import { CompetitionsModule } from './competitions/competitions.module';
+import { NftModule } from './nft/nft.module';
+import { HealthModule } from './health/health.module';
+import { RateLimitModule } from './common/rate-limit.module';
+ feature/295-discord-community-integration
+import { DiscordBotModule } from './integrations/discord/discord-bot.module';
+
+ feature/294-telegram-bot-integration
+import { TelegramBotModule } from './integrations/telegram/telegram-bot.module';
+
+ feature/293-mobile-api-optimizations
+import { MobileModule } from './mobile/mobile.module';
+
+import { AutomationModule } from './integrations/automation-platforms/automation.module';
+ main
+ main
+ main
 
 @Module({
   imports: [
@@ -136,7 +155,27 @@ import { FeaturesModule } from './features/features.module';
     BackupModule,
     AdminAnalyticsModule,
     MonitoringModule,
-    FeaturesModule,
+    WebhooksModule,
+    DrModule,
+    MarketIntelligenceModule,
+    DocumentationModule,
+    CompetitionsModule,
+    NftModule,
+    HealthModule,
+    RateLimitModule,
+ feature/295-discord-community-integration
+    DiscordBotModule,
+
+ feature/294-telegram-bot-integration
+    TelegramBotModule,
+
+ feature/293-mobile-api-optimizations
+    MobileModule,
+
+    AutomationModule,
+ main
+ main
+ main
   ],
   providers: [StellarConfigService],
   exports: [StellarConfigService],
